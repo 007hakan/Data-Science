@@ -1,0 +1,67 @@
+from operator import attrgetter
+
+class Calisan():
+    counter = 0
+    personel = []
+    isim = []
+    maas = []
+    yas = []
+
+    def __init__(self, isim, soyisim, yas, maas):  # constructor
+        self.isim = isim
+        self.soyisim = soyisim
+        self.yas = yas
+        self.maas = maas
+        self.email = isim + soyisim + "@asd.com"
+
+        Calisan.counter = Calisan.counter + 1
+        Calisan.personel.append(self)
+        Calisan.isim.append(self.isim)
+        Calisan.maas.append(self.maas)
+        Calisan.yas.append(self.yas)
+
+    def __repr__(self):
+        return (self.isim,self.soyisim,self.yas,self.maas)
+
+    def sirala(self):
+        siralama_olcutu = input('Lutfen siralama olcutu giriniz(isim,yas,maas):')
+        while siralama_olcutu != ('isim' or 'yas' or 'maas'):
+            return print('hatali giris! Lutfen (isim,yas,maas) uclusunden birini giriniz.')
+        else:
+            Calisan.personel.sort(key = attrgetter(siralama_olcutu))
+        for i in Calisan.personel:
+            print(i.isim,i.soyisim,":",i.maas," yas=",i.yas)
+
+
+    def zam_yap(self,zam_orani):
+        zamin_maliyeti = int(sum(Calisan.maas)*zam_orani/100)
+        print("UYARI!!!=Kurum politikamiz geregi bir isciye zam yapabilmemiz ayni oranda tum iscilere zam yapmamiz durumunda mumkundur.")
+        print("Maaslarin toplam maliyeti=",sum(Calisan.maas))
+        print( "Zamlarin toplam maliyeti=",zamin_maliyeti)
+        sec = input('Yine de zam yapmak istiyor musunuz? (E/H)')
+        if type(sec) == str and len(sec)==1:
+            if sec == 'e' or sec == "E":
+                for each in Calisan.personel:
+                    each.maas = each.maas*(100+zam_orani)/100
+                    print("Yeni maaslar=",each.isim,each.soyisim,"=",each.maas)
+            elif sec == 'h' or sec == 'H':
+                print('Calisanlariniz icin daha uygun bir oran secebilirsiniz.')
+                return print("calisan maaslarinizin ozet listesi",Calisan.maas)
+            else:
+                print("Yanlis/hatali giris yaptiniz. Tekrar deneyiniz.")
+        else:
+            print("Yanlis/hatali giris yaptiniz. Tekrar deneyiniz.")
+
+
+p1=Calisan('hakan','yildirim',32, 2000)
+p2=Calisan('sevgi','yildirim',22, 2200)
+p3=Calisan('ali','veli',33,1900)
+p4=Calisan('kemal','berkemel',44,2700)
+p5=Calisan('suavi','uzuncayir',57,2500)
+p6=Calisan('asayis','berkemal',36,2800)
+p7=Calisan('geldi bir', 'karaduman',64,2100)
+p8=Calisan('habuakandereler','denizleredolacak',19,1890)
+
+
+Calisan.sirala(p2) #siralama yapiyoruz, yapmak istedigimiz siaralama seklini input ile alacagiz.
+Calisan.zam_yap(p1,20) #zam yapiyoruz herhangi bir isciye ancak hepsine ayni oranda yapmamiz gerekiyor
